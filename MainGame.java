@@ -9,27 +9,23 @@ public class MainGame {
                 "(außer es wird etwas anderes angegeben!\n" +
                 "Dann starten wir doch gleich mit der ersten Runde. Wie wuenschen dir noch sehr viel Spaß!\n";
         System.out.println(welcomingMessage);
-        int playerCount = askPlayerCount();
-        Game currentGame = new Game.initializeGame(playerCount);
+
+        boolean playerWantsGame = true;
+        //aktuell ist das noch eine Dauerschleife. Allerdings kann man in zukunft eine Option einbauen, um das Spiel mit
+        // \exit zu verlassen.
+        do {
+            playGame();
+            playerWantsGame = askPlayerForGame();
+        } while (playerWantsGame);
     }
 
-
-    private static int askPlayerCount() {
-        int playerCount;
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Wie viele Spieler von 2-4 seid ihr denn? (jetzt ist es nicht möglich nach hilfe zu fragen)");
-        playerCount = scanner.nextInt();
-        while (playerCount < 2 || playerCount > 4) {
-            System.out.println("Leider werden nur 2-4 Spieler unterstützt :(\n" +
-                               "Bitte gebe eine Zahl zwischen 2 und 4 ein");
-            playerCount = scanner.nextInt();
-        }
-        return playerCount;
-
-
+    private static void playGame() {
+        String[] playerNames = askPlayerNames();
+        Game currentGame = new Game(playerNames);
+        currentGame.startGame();
     }
-/*
-    private static void scanForOptions(boolean ingame){
+
+    private static boolean askPlayerForGame(){
         String helpMessage ="Zur Auswahl stehen folgende Befehle:\n" +
                 "\\start -      Ein neues Spiel starten\n" +
                 "\\playCard -   Eine Karte Spielen\n" +
@@ -42,47 +38,38 @@ public class MainGame {
         while (input.charAt(0) != '\\'){
             System.out.println("bitte gueltigen Befehl eingeben und nicht das '\\' vergessen!");
         }
-
-        if (ingame) {
-            if (input.equals("\\help")) {
-                System.out.println(helpMessage);
-                scanForOptions(true);
-            } else if (input.equals("\\start")) {
-                System.out.println("Du befindest dich gerade in einem Spiel! Bist du sicher, dass du ein neues Starten möchtest? (ja/nein)");
-                String answer = scanOptions.nextLine();
-                if (answer.equals("ja")){
-                    startGame();
-                } else {
-                    scanForOptions(true);
-                }
-            } else if (input.equals("\\playCard")){
-                playCard();
-            } else if (input.equals("\\showHand")) {
-                showHand();
-            } else if (input.equals("\\showScore")){
-                showScore();
-            } else {
-                System.out.println("Falsche Eingabe!\n\nBitte gebe erneut einen Befehl ein");
-                scanForOptions(ingame);
-            }
+        if (input == "\\start") {
+            return true;
+        } else if (input == "\\help") {
+            System.out.println(helpMessage);
+            return askPlayerForGame();
         } else {
-            if (input.equals("\\help")) {
-                System.out.println(helpMessage);
-            }else if (input.equals("\\start")) {
-
-            } else if (input.equals("\\playCard")){
-
-            } else if (input.equals("\\showHand")) {
-
-            } else if (input.equals("\\showScore")){
-
-            } else {
-                System.out.println("Faslche Eingabe!\n\nBitte gebe erneut einen Befehl ein");
-                scanForOptions(ingame);
-            }
+            System.out.println(nichtIngameMessage);
+            return askPlayerForGame();
         }
+    }
+
+
+    private static String[] askPlayerNames() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Wie viele Spieler von 2-4 seid ihr denn? (jetzt ist es nicht möglich nach hilfe zu fragen)");
+        int playerCount = scanner.nextInt();
+        scanner.nextLine(); //um den Zeilenumbruch zu entfernen (da dieser sonst vom scanner gescannt wird)
+        while (playerCount < 2 || playerCount > 4) {
+            System.out.println("Leider werden nur 2-4 Spieler unterstützt :(\n" +
+                               "Bitte gebe eine Zahl zwischen 2 und 4 ein");
+            playerCount = scanner.nextInt();
+        }
+        String[] playerNames = new String[playerCount];
+        for (int i = 0; i <playerCount; i++){
+            System.out.println("Wie ist der name von Spieler "+ (i +1) +"?");
+            playerNames[i] = scanner.nextLine();
+        }
+        System.out.println("Alles klar! Das Spiel wird erstellt");
+        return playerNames;
+
 
     }
-    */
+
 }
 
