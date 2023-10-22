@@ -42,8 +42,7 @@ public class Game {
     public void startGame() {
         boolean gameRunning = true;
         Player currentPlayer = this.playerArray[0];
-
-
+        System.out.println("Befehle können nun eingegeben werden");
         while (gameRunning) {
             while (!cardDeck.isEmpty()){
 

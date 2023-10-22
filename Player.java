@@ -2,13 +2,25 @@
 import java.util.ArrayList;
 
 public class Player {
-    String name;
-    ArrayList<Card> hand;
-    int score;
+    private String name;
+    private ArrayList<Card> hand;
+    private int score;
     public Player(String name){
         this.name = name;
         this.hand = new ArrayList<Card>();
         this.score = 0;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ArrayList<Card> getHand() {
+        return hand;
+    }
+
+    public int getScore() {
+        return score;
     }
 }
 
