@@ -19,6 +19,17 @@ public class Player {
         return hand;
     }
 
+    public String getHandAsString() {
+        String returnString = "";
+        if (!hand.isEmpty()) {
+            for (int i = 0; i < hand.size(); i++) {
+                Card currentCard = hand.get(i);
+                returnString += "Karte " + (i + 1) + ": " + currentCard.getName() + " Nummer: " + currentCard.getClosenessToPrincess()
+                        + "\n    Effect: " + currentCard.getEffect();
+            }
+        }
+        return returnString;
+    }
     public int getScore() {
         return score;
     }
