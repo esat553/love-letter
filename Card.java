@@ -1,17 +1,28 @@
 public class Card {
     String name;
-    int ClosenessToPrincess;
-    String Effect;
+    int closenessToPrincess;
+    String effect;
+
+    public Card (String name, int closenessToPrincess, String effect){
+        this.name = name;
+        this.closenessToPrincess = closenessToPrincess;
+        this.effect = effect;
+    }
 
     public String getName() {
         return name;
     }
 
     public int getClosenessToPrincess() {
-        return ClosenessToPrincess;
+        return closenessToPrincess;
     }
 
     public String getEffect() {
-        return Effect;
+        return effect;
+    }
+
+    public String getDataAsString() {
+        return (name + " has a Closenesslevel to the princess of " + closenessToPrincess + " and has the\n" +
+                "Effect:" + effect);
     }
 }
