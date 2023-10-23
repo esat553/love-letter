@@ -4,14 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>groupId</groupId>
-    <artifactId>love-letter</artifactId>
-    <version>1.0-SNAPSHOT</version>
-
+    <groupId>de.lmu.ifi.dbs.sep202324</groupId>
+    <artifactId>esat-love-letter</artifactId>
+    <version>1.0.0</version>
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <build>
+    </build>
     
 </project>
