@@ -1,3 +1,5 @@
+package love_letter_package;
+
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;

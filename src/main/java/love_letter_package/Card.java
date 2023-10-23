@@ -1,3 +1,5 @@
+package love_letter_package;
+
 public class Card {
     String name;
     int closenessToPrincess;

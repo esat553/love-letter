@@ -1,3 +1,5 @@
+package love_letter_package;
+
 import java.util.Scanner;
 
 public class MainGame {
