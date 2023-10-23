@@ -62,6 +62,7 @@ public class MainGame {
                                "Bitte gebe eine Zahl zwischen 2 und 4 ein");
             playerCount = scanner.nextInt();
         }
+        scanner.nextLine(); //um den Zeilenumbruch zu entfernen (da dieser sonst vom scanner gescannt wird)
         String[] playerNames = new String[playerCount];
         for (int i = 0; i <playerCount; i++){
             System.out.println("Wie ist der name von Spieler "+ (i +1) +"?");
