@@ -8,8 +8,8 @@
     <artifactId>esat-love-letter</artifactId>
     <version>1.0.0</version>
     <properties>
-        <maven.compiler.source>19.0.2</maven.compiler.source>
-        <maven.compiler.target>19.0.2</maven.compiler.target>
+        <maven.compiler.source>19</maven.compiler.source>
+        <maven.compiler.target>19</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
