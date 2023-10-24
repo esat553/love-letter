@@ -3,6 +3,11 @@ package love_letter_package;
 import java.util.Scanner;
 
 public class MainGame {
+    /**
+     * author: Esat Avci
+     * This is the Main function, which executes the Game.
+     * @param args
+     */
     public static void main(String[] args) {
         String welcomingMessage =
                 "Wilkommen beim Love Letter Spiel!\n" +

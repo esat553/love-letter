@@ -1,5 +1,7 @@
 package love_letter_package;
 
+import love_letter_package.Cards.*;
+
 import java.util.ArrayList;
 
 public class Player {

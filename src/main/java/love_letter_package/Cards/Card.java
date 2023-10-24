@@ -1,4 +1,4 @@
-package love_letter_package;
+package love_letter_package.Cards;
 
 public class Card {
     String name;
@@ -10,6 +10,8 @@ public class Card {
         this.closenessToPrincess = closenessToPrincess;
         this.effect = effect;
     }
+
+
 
     public String getName() {
         return name;
@@ -27,4 +29,5 @@ public class Card {
         return (name + " has a Closenesslevel to the princess of " + closenessToPrincess + " and has the\n" +
                 "Effect:" + effect);
     }
+
 }
