@@ -30,4 +30,6 @@ public class Card {
                 "Effect:" + effect);
     }
 
+    //public abstract void effectAction();
+
 }

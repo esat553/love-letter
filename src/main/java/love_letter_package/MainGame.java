@@ -61,7 +61,7 @@ public class MainGame {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Wie viele Spieler von 2-4 seid ihr denn? (jetzt ist es nicht möglich nach hilfe zu fragen)");
         int playerCount = scanner.nextInt();
-        scanner.nextLine(); //um den Zeilenumbruch zu entfernen (da dieser sonst vom scanner gescannt wird)
+        //scanner.nextLine(); //um den Zeilenumbruch zu entfernen (da dieser sonst vom scanner gescannt wird)
         while (playerCount < 2 || playerCount > 4) {
             System.out.println("Leider werden nur 2-4 Spieler unterstützt :(\n" +
                                "Bitte gebe eine Zahl zwischen 2 und 4 ein");

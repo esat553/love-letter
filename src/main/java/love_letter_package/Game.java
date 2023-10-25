@@ -46,6 +46,12 @@ public class Game {
     public void startGame() {
         boolean gameRunning = true;
         int currentPlayerNumber = 0;
+        System.out.println("Jeder Spieler erhält nun eine Karte!");
+        for (int i = 0; i < playerArray.length; i ++){
+            Card cardFromCarddeck = getCardFromDeck(); //Hier wird eine Karte aus dem Kartendeck genommen
+            playerArray[i].addCardToHand(cardFromCarddeck); //Diese Karte wird dann in die Karte des Spielers eingefügt.
+            //Man könnte das auch kompakter schreiben, allerdings würde das der Codelesbarkeit schaden.
+        }
         System.out.println("Befehle können nun eingegeben werden");
         while (gameRunning) {
             while (!cardDeck.isEmpty()){
@@ -107,6 +113,12 @@ public class Game {
         /*for (int i = 0; i < playerArray.length; i++){
             System.out.println("Spieler "+ (i+1) + playerArray[i].getName() + ": " + playerArray[i].getScore());
         }*/
+    }
+
+    private Card getCardFromDeck(){
+        Card returnCard = cardDeck.get(0);
+        cardDeck.remove(0);
+        return returnCard;
     }
 
 }
