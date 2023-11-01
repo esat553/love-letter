@@ -1,9 +1,9 @@
 package love_letter_package.Cards;
 
-public class Card {
-    String name;
-    int closenessToPrincess;
-    String effect;
+public abstract class Card {
+    private String name;
+    private int closenessToPrincess;
+    private String effect;
 
     public Card (String name, int closenessToPrincess, String effect){
         this.name = name;
@@ -30,6 +30,6 @@ public class Card {
                 "Effect:" + effect);
     }
 
-    //public abstract void effectAction();
+    public abstract void effectAction();
 
 }
