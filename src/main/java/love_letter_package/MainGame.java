@@ -34,10 +34,11 @@ public class MainGame {
 
     private static boolean askPlayerForGame(){
         String helpMessage ="Zur Auswahl stehen folgende Befehle:\n" +
-                "\\start -      Ein neues Spiel starten\n" +
-                "\\playCard -   Eine Karte Spielen\n" +
-                "\\showHand -   Die Hand des aktuellen Spielers anzeigen\n" +
-                "\\showScor -   Den Spielstand aller Spieler anzeigen\n";
+                "\\start      -   Ein neues Spiel starten\n" +
+                "\\playCard   -   Eine Karte Spielen\n" +
+                "\\showHand   -   Die Hand des aktuellen Spielers anzeigen\n" +
+                "\\showScore  -   Den Spielstand aller Spieler anzeigen\n" +
+                "\\showPlayers -   Zeigt alle Spieler an mit und zeigt welche\n";
         String nichtIngameMessage = "Dieser Befehl ist gerade nicht verfügbar du bist nicht in einem Spiel!";
 
         Scanner scanOptions = new Scanner(System.in);

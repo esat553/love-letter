@@ -1,15 +1,13 @@
 package love_letter_package;
-
 import love_letter_package.Cards.*;
-
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
-    int playerCount;
+    static int playerCount;
     private static ArrayList<Card> cardDeck;
-    Player[] playerArray;
+    static Player[] playerArray;
 
     //The game initializer
     public Game(String[] playerNames) {
@@ -27,12 +25,13 @@ public class Game {
 
 
     private static ArrayList<Card> newCardDeck() {
-        Card[] unshuffledList = new Card[16];
+        Card[] unshuffledList = {
+                new Princess(), new Countess(), new King(), new Prince(),
+                new Prince(), new Handmaid(), new Handmaid(), new Baron(),
+                new Baron(), new Priest(), new Priest(), new Guard(),
+                new Guard(), new Guard(), new Guard(), new Guard()
+        };
         ArrayList<Card> newCardDeck = new ArrayList<Card>();
-        for (int i = 0; i < 15; i++) {
-            unshuffledList[i] = new Card("Prinz", 7, "3 mal im Kreis rennen");
-        }
-        unshuffledList[15] = new Card("Random Dude", 0, "being normal");
         Random randomNumber = new Random();
         for (int i = 15; i >= 0; i--) {
             int zufallsZahl = randomNumber.nextInt(i + 1);
@@ -46,6 +45,7 @@ public class Game {
     public void startGame() {
         boolean gameRunning = true;
         int currentPlayerNumber = 0;
+        int playersTurnNumber = 0;
         System.out.println("Jeder Spieler erhält nun eine Karte!");
         for (int i = 0; i < playerArray.length; i ++){
             Card cardFromCarddeck = getCardFromDeck(); //Hier wird eine Karte aus dem Kartendeck genommen
@@ -54,21 +54,24 @@ public class Game {
         }
         System.out.println("Befehle können nun eingegeben werden");
         while (gameRunning) {
-            while (!cardDeck.isEmpty()){
-                Player currentPlayer = this.playerArray[currentPlayerNumber];
-                scanForOptions(currentPlayer);
+            Player currentPlayer = this.playerArray[currentPlayerNumber];
+            while (currentPlayerNumber == playersTurnNumber){
+                System.out.println("Am Zug ist: "+ currentPlayer.getName());
+                scanForOptions(currentPlayer, playersTurnNumber);
+                if (cardDeck.isEmpty()) gameRunning =false;
             }
         }
 
 
     }
 
-    private static void scanForOptions(Player currentPlayer){
+    private static void scanForOptions(Player currentPlayer, int playersTurnNumber){
         String helpMessage ="Zur Auswahl stehen folgende Befehle:\n" +
-                "\\start -      Ein neues Spiel starten\n" +
-                "\\playCard -   Eine Karte Spielen\n" +
-                "\\showHand -   Die Hand des aktuellen Spielers anzeigen\n" +
-                "\\showScore -   Den Spielstand aller Spieler anzeigen\n";
+                "\\start       -   Ein neues Spiel starten\n" +
+                "\\playCard    -   Eine Karte spielen. Der Spielzug des aktuellen Spielers wird dadurch beendet\n" +
+                "\\showHand    -   Die Hand des aktuellen Spielers anzeigen\n" +
+                "\\showScore   -   Den Spielstand aller Spieler anzeigen\n" +
+                "\\showPlayers -   Zeigt alle Spieler an mit und zeigt welche\n";
         String nichtIngameMessage = "Dieser Befehl ist gerade nicht verfügbar du bist nicht in einem Spiel!";
 
         Scanner scanOptions = new Scanner(System.in);
@@ -84,11 +87,14 @@ public class Game {
                     System.out.println("Dann fahren wir mit dem aktuellen Spiel fort");
                 }
             } else if (input.equals("\\playCard")){
-                playCard();
+                playCard(currentPlayer);
+                playersTurnNumber = (playersTurnNumber +1) % playerCount;
             } else if (input.equals("\\showHand")) {
                 showHand(currentPlayer);
             } else if (input.equals("\\showScore")){
                 showScore();
+            } else if(input.equals("\\showPlayers")) {
+                showPlayers(currentPlayer);
             } else {
                 System.out.println("bitte gueltigen Befehl eingeben und nicht das '\\' vergessen!");
         }
@@ -99,9 +105,15 @@ public class Game {
         System.out.println("Das hier ist eine Platzhalterfunktion. Spiel geht weiter.");
     }
 
-    private static void playCard() {
-        System.out.println("Das hier ist eine Platzhalterfunktion. Karte gespiel");
-        System.out.println("Nächster Spieler müsste drankommen");
+    private static void playCard(Player currentPlayer) {
+        System.out.println("Welche Karte möchten sie nun aus Ihrem Deck Speilen");
+    }
+
+    private void getNewCardFromDeck(Player player){
+        Card newCard = cardDeck.get(0);
+        cardDeck.remove(0);
+        player.addCardToHand(newCard);
+        System.out.println("Sie zogen aus dem Stapel: " + newCard.getName());
     }
 
     private static void showHand(Player currentPlayer){
@@ -115,6 +127,16 @@ public class Game {
         }*/
     }
 
+    private static void showPlayers(Player currentPlayer) {
+        System.out.println("Spieler:");
+        for (int i = 0; i < playerArray.length; i++) {
+            if (playerArray[i].equals(currentPlayer)) {
+                System.out.println(playerArray[i].getName() + "  <-- Aktuell am Zug");
+            } else {
+                System.out.println(playerArray[i].getName());
+            }
+        }
+    }
     private Card getCardFromDeck(){
         Card returnCard = cardDeck.get(0);
         cardDeck.remove(0);
