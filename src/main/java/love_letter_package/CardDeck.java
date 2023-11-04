@@ -28,11 +28,6 @@ public class CardDeck {
         return newCardDeck;
     }
 
-    public Card drawCard() {
-        Card drewedCard = cardDeck.get(0);
-        cardDeck.remove(0);
-        return drewedCard;
-    }
 
     public boolean isEmpty() {
         return cardDeck.isEmpty();
@@ -45,7 +40,7 @@ public class CardDeck {
         System.out.println("Sie zogen aus dem Stapel: " + newCard.getName());
     }
 
-    public Card drewCardFromDeck(){
+    public Card drawCardFromDeck(){
         Card drewedCard = cardDeck.get(0);
         cardDeck.remove(0);
         return drewedCard;

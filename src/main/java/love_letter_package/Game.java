@@ -7,9 +7,9 @@ import java.util.Scanner;
 public class Game {
     static int playerCount;
     private static CardDeck cardDeck;
-    static Player[] playerArray; //The players are saved in an arrray.
+    static Player[] playerArray; //The players are saved in an array.
 
-    //The game initializer which needs a Array with the player Names to initialize the Game
+    //The game initializer which needs an Array with the player Names to initialize the Game
     public Game(String[] playerNames) {
         this.playerCount = playerNames.length;
         this.cardDeck = new CardDeck();
@@ -23,29 +23,46 @@ public class Game {
         return playerCount;
     }
 
-
-
-    public void startGame() {
-        if (playerCount==2){
-
+    public void startGame(){
+        boolean endOfGame = false;
+        while (!endOfGame){
+            startRound();
+            int maxPlayerScore = getMaxPlayerCount();
+            endOfGame = isRoundOver(maxPlayerScore);
         }
-        boolean gameRunning = true;
+    }
+
+
+
+    public void startRound() {
+        //Here the rule is being applied, that for 2 players 4 Cards are removed from the Deck and for a
+        //Game with more than 2 players only one is removed
+        boolean roundRunning = true;
         int currentPlayerNumber = 0;
         int playersTurnNumber = 0;
+        if (playerCount <= 2){
+            Card[] discardedCards = new Card[4];
+            for (int i = 0; i < 4; i++){
+                discardedCards[i] = cardDeck.drawCardFromDeck();
+            }
+        } else {
+            Card[] discardedCards = new Card[1];
+            discardedCards[0] = cardDeck.drawCardFromDeck();
+        }
         System.out.println("Jeder Spieler erhält nun eine Karte!");
         for (int i = 0; i < playerArray.length; i ++){
-            Card cardFromCarddeck = cardDeck.drawCard(); //Hier wird eine Karte aus dem Kartendeck genommen
+            Card cardFromCarddeck = cardDeck.drawCardFromDeck(); //Hier wird eine Karte aus dem Kartendeck genommen
             playerArray[i].addCardToHand(cardFromCarddeck); //Diese Karte wird dann in die Karte des Spielers eingefügt.
-            //Man könnte das auch kompakter schreiben, allerdings würde das der Codelesbarkeit schaden.
         }
         System.out.println("Befehle können nun eingegeben werden");
-        //This is the algorithm which
-        while (gameRunning) {
+        //This is the algorithm which determines when a Round is over.
+        while (roundRunning) {
             Player currentPlayer = this.playerArray[currentPlayerNumber];
             while (currentPlayerNumber == playersTurnNumber){
                 System.out.println("Am Zug ist: "+ currentPlayer.getName());
+                currentPlayer.addCardToHand(cardDeck.drawCardFromDeck());
                 scanForOptions(currentPlayer, playersTurnNumber);
-                if (cardDeck.isEmpty()) gameRunning =false;
+                if (cardDeck.isEmpty()) roundRunning  =false;
             }
         }
 
@@ -54,11 +71,12 @@ public class Game {
 
     private static void scanForOptions(Player currentPlayer, int playersTurnNumber){
         String helpMessage ="Zur Auswahl stehen folgende Befehle:\n" +
-                "\\start       -   Ein neues Spiel starten\n" +
-                "\\playCard    -   Eine Karte spielen. Der Spielzug des aktuellen Spielers wird dadurch beendet\n" +
-                "\\showHand    -   Die Hand des aktuellen Spielers anzeigen\n" +
-                "\\showScore   -   Den Spielstand aller Spieler anzeigen\n" +
-                "\\showPlayers -   Zeigt alle Spieler an mit und zeigt welche\n";
+                "\\start                -   Ein neues Spiel starten\n" +
+                "\\playCard             -   Eine Karte spielen. Der Spielzug des aktuellen Spielers wird dadurch beendet\n" +
+                "\\showHand             -   Die Hand des aktuellen Spielers anzeigen\n" +
+                "\\showScore            -   Den Spielstand aller Spieler anzeigen\n" +
+                "\\showPlayers          -   Zeigt alle Spieler an mit und zeigt welche\n" +
+                "\\showDiscardedCards   -   Zeigt die Karten auf dem Ablagestapel\n";
         String nichtIngameMessage = "Dieser Befehl ist gerade nicht verfügbar du bist nicht in einem Spiel!";
 
         Scanner scanOptions = new Scanner(System.in);
@@ -93,7 +111,7 @@ public class Game {
     }
 
     private static void playCard(Player currentPlayer) {
-        System.out.println("Welche Karte möchten sie nun aus Ihrem Deck Speilen");
+        System.out.println("Welche Karte möchten sie nun aus Ihrem Deck Spielen");
     }
 
 
@@ -117,6 +135,30 @@ public class Game {
                 System.out.println(playerArray[i].getName());
             }
         }
+    }
+
+    private int getMaxPlayerCount() {
+        int currentMax = 0;
+        for (int i = 0; i < playerCount; i++){
+            int currentPlayerPoints = playerArray[i].getScore();
+            if (currentPlayerPoints > currentMax){
+                currentMax = currentPlayerPoints;
+            }
+
+        }
+        return currentMax;
+    }
+
+    private boolean isRoundOver(int maxScore) {
+        boolean roundOver = false;
+        if (
+                (playerCount == 2 && maxScore >= 7) ||
+                (playerCount == 3 && maxScore >= 5) ||
+                (playerCount == 4 && maxScore >= 4)
+        ) {
+            roundOver = true;
+        }
+        return roundOver;
     }
 
 }

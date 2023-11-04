@@ -32,7 +32,7 @@ public class Player {
             for (int i = 0; i < hand.size(); i++) {
                 Card currentCard = hand.get(i);
                 returnString += "Karte " + (i + 1) + ": " + currentCard.getName() + " Nähe zur Prinzessin: " + currentCard.getClosenessToPrincess()
-                        + "\nEffect: " + currentCard.getEffect();
+                        + "\nEffect: " + currentCard.getEffect() +"\n\n";
             }
         }
         return returnString;
