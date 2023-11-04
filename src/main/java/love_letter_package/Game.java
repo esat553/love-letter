@@ -6,13 +6,13 @@ import java.util.Scanner;
 
 public class Game {
     static int playerCount;
-    private static ArrayList<Card> cardDeck;
-    static Player[] playerArray;
+    private static CardDeck cardDeck;
+    static Player[] playerArray; //The players are saved in an arrray.
 
-    //The game initializer
+    //The game initializer which needs a Array with the player Names to initialize the Game
     public Game(String[] playerNames) {
         this.playerCount = playerNames.length;
-        this.cardDeck = newCardDeck();
+        this.cardDeck = new CardDeck();
         this.playerArray = new Player[this.playerCount];
         for (int i = 0; i < this.playerCount; i++) {
             this.playerArray[i] = new Player(playerNames[i]);
@@ -24,35 +24,22 @@ public class Game {
     }
 
 
-    private static ArrayList<Card> newCardDeck() {
-        Card[] unshuffledList = {
-                new Princess(), new Countess(), new King(), new Prince(),
-                new Prince(), new Handmaid(), new Handmaid(), new Baron(),
-                new Baron(), new Priest(), new Priest(), new Guard(),
-                new Guard(), new Guard(), new Guard(), new Guard()
-        };
-        ArrayList<Card> newCardDeck = new ArrayList<Card>();
-        Random randomNumber = new Random();
-        for (int i = 15; i >= 0; i--) {
-            int zufallsZahl = randomNumber.nextInt(i + 1);
-            newCardDeck.add(unshuffledList[zufallsZahl]);
-        }
-
-        return newCardDeck;
-
-    }
 
     public void startGame() {
+        if (playerCount==2){
+
+        }
         boolean gameRunning = true;
         int currentPlayerNumber = 0;
         int playersTurnNumber = 0;
         System.out.println("Jeder Spieler erhält nun eine Karte!");
         for (int i = 0; i < playerArray.length; i ++){
-            Card cardFromCarddeck = getCardFromDeck(); //Hier wird eine Karte aus dem Kartendeck genommen
+            Card cardFromCarddeck = cardDeck.drawCard(); //Hier wird eine Karte aus dem Kartendeck genommen
             playerArray[i].addCardToHand(cardFromCarddeck); //Diese Karte wird dann in die Karte des Spielers eingefügt.
             //Man könnte das auch kompakter schreiben, allerdings würde das der Codelesbarkeit schaden.
         }
         System.out.println("Befehle können nun eingegeben werden");
+        //This is the algorithm which
         while (gameRunning) {
             Player currentPlayer = this.playerArray[currentPlayerNumber];
             while (currentPlayerNumber == playersTurnNumber){
@@ -109,12 +96,6 @@ public class Game {
         System.out.println("Welche Karte möchten sie nun aus Ihrem Deck Speilen");
     }
 
-    private void getNewCardFromDeck(Player player){
-        Card newCard = cardDeck.get(0);
-        cardDeck.remove(0);
-        player.addCardToHand(newCard);
-        System.out.println("Sie zogen aus dem Stapel: " + newCard.getName());
-    }
 
     private static void showHand(Player currentPlayer){
         System.out.println(currentPlayer.getHandAsString());
@@ -136,11 +117,6 @@ public class Game {
                 System.out.println(playerArray[i].getName());
             }
         }
-    }
-    private Card getCardFromDeck(){
-        Card returnCard = cardDeck.get(0);
-        cardDeck.remove(0);
-        return returnCard;
     }
 
 }

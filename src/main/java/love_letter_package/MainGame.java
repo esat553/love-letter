@@ -66,40 +66,48 @@ public class MainGame {
 
     private static String[] askPlayerNames() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Wie viele Spieler von 2-4 seid ihr denn?");
-        String playerCountString = scanner.nextLine();
-        //scanner.nextLine(); //um den Zeilenumbruch zu entfernen (da dieser sonst vom scanner gescannt wird)
-        try {
-            int playerCount = Integer.parseInt(playerCountString);
-            while (playerCount < 2 || playerCount > 4) {
-                System.out.println("Leider werden nur 2-4 Spieler unterstützt :(\n" +
-                        "Bitte gebe eine Zahl zwischen 2 und 4 ein");
+
+        int playerCount = 0;
+        while (true) {
+            System.out.println("Wie viele Spieler von 2-4 seid ihr denn?");
+
+            String playerCountString = scanner.nextLine();
+            try {
                 playerCount = Integer.parseInt(playerCountString);
+
+                if (playerCount >= 2 && playerCount <= 4) {
+                    break; //Verlässt die Dauerschleife, sobald eine gültige eingabe erkannt wurde
+                } else {
+                    System.out.println("Leider werden nur 2-4 Spieler unterstützt :(\n" +
+                            "Bitte gebe eine Zahl zwischen 2 und 4 ein");
+                }
+            } catch (NumberFormatException e) {
+                if (playerCountString.equals("\\help")) {
+                    System.out.println(helpMessage);
+                } else if (playerCountString.equals("\\start")) {
+                    System.out.println("Zum starten bitte gültige Spieleranzahl angeben!");
+                } else if (
+                                playerCountString.equals("\\showHand") ||
+                                playerCountString.equals("\\showScore") ||
+                                playerCountString.equals("\\showPlayers")
+                ) {
+                    System.out.println("Diese Befehle sind erst ingame verfügbar");
+                }
+                else {
+                    System.out.println("ungültige Eingabe. Versuche es noch einmal!");
+                    }
+                }
             }
 
-            scanner.nextLine(); //um den Zeilenumbruch zu entfernen (da dieser sonst vom scanner gescannt wird)
-            String[] playerNames = new String[playerCount];
-            for (int i = 0; i < playerCount; i++) {
-                System.out.println("Wie ist der name von Spieler " + (i + 1) + "?");
-                playerNames[i] = scanner.nextLine();
-            }
-            System.out.println("Alles klar! Das Spiel wird erstellt");
-            return playerNames;
-
-        } catch (NumberFormatException e){
-            if (playerCountString.equals("\\help")) {
-                System.out.println(helpMessage);
-                return askPlayerNames();
-            }else if (playerCountString.equals("\\start")){
-                return askPlayerNames();
-            } else {
-                System.out.println("ungültige Eingabe. Versuche es noch einmal!");
-                return askPlayerNames();
-            }
-
+        String[] playerNames = new String[playerCount];
+        for (int i = 0; i < playerCount; i++) {
+            System.out.println("Wie ist der name von Spieler " + (i + 1) + "?");
+            playerNames[i] = scanner.nextLine();
         }
-
+        System.out.println("Alles klar! Das Spiel wird erstellt");
+        return playerNames;
     }
+
 
 
 
