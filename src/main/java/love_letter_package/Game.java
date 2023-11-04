@@ -1,5 +1,7 @@
 package love_letter_package;
 import love_letter_package.Cards.*;
+
+import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -9,6 +11,7 @@ public class Game {
     private static CardDeck cardDeck;
     static Player[] playerArray; //The players are saved in an array.
 
+    Card [] discardedCards;
 
     //The game initializer which needs an Array with the player Names to initialize the Game
     public Game(String[] playerNames) {
@@ -42,12 +45,12 @@ public class Game {
         int currentPlayerNumber = 0;
         int nextPlayersTurnNumber = 0;
         if (playerCount <= 2){
-            Card[] discardedCards = new Card[4];
+            discardedCards = new Card[4];
             for (int i = 0; i < 4; i++){
                 discardedCards[i] = cardDeck.drawCardFromDeck();
             }
         } else {
-            Card[] discardedCards = new Card[1];
+            discardedCards = new Card[1];
             discardedCards[0] = cardDeck.drawCardFromDeck();
         }
         System.out.println("Jeder Spieler erhält nun eine Karte!");
@@ -69,15 +72,15 @@ public class Game {
         }
     }
 
-    private static int scanForOptions(Player currentPlayer, int playersTurnNumber){
+    private int scanForOptions(Player currentPlayer, int playersTurnNumber){
         String helpMessage ="Zur Auswahl stehen folgende Befehle:\n" +
                 "\\start                -   Ein neues Spiel starten\n" +
                 "\\playCard             -   Eine Karte spielen. Der Spielzug des aktuellen Spielers wird dadurch beendet\n" +
                 "\\showHand             -   Die Hand des aktuellen Spielers anzeigen\n" +
                 "\\showScore            -   Den Spielstand aller Spieler anzeigen\n" +
-                "\\showPlayers          -   Zeigt alle Spieler an mit und zeigt welche\n" +
+                "\\showPlayers          -   Zeigt alle Spieler an und welcher aktuell am Zug ist\n" +
                 "\\showDiscardedCards   -   Zeigt die Karten auf dem Ablagestapel\n" +
-                "\\showReferencecard    -   Zeigt die Referenzkarte mit den Kartentypen\n";
+                "\\showReferenceCard    -   Zeigt die Referenzkarte mit den Kartentypen\n";
 
         String nichtIngameMessage = "Dieser Befehl ist gerade nicht verfügbar du bist nicht in einem Spiel!";
 
@@ -107,6 +110,12 @@ public class Game {
                 return playersTurnNumber;
             } else if(input.equals("\\showPlayers")) {
                 showPlayers(currentPlayer);
+                return playersTurnNumber;
+            } else if (input.equals("\\showDiscardedCards")) {
+                showDiscardedCards();
+                return playersTurnNumber;
+            } else if (input.equals("\\showReferenceCard")) {
+                showReferenceCard();
                 return playersTurnNumber;
             } else {
                 System.out.println("bitte gueltigen Befehl eingeben und nicht das '\\' vergessen!");
@@ -163,13 +172,12 @@ public class Game {
         System.out.println(currentPlayer.getHandAsString());
     }
 
-    private static void showScore(){
-        System.out.println("Score: PLatzerhalter");
-        /*for (int i = 0; i < playerArray.length; i++){
-            System.out.println("Spieler "+ (i+1) + playerArray[i].getName() + ": " + playerArray[i].getScore());
-        }*/
-    }
+    private static void showScore() {
+        for (int i = 0; i < playerArray.length; i++) {
+            System.out.println(("Spieler " + (i + 1)) + " " + playerArray[i].getName() + ": " + playerArray[i].getScore());
 
+        }
+    }
     private static void showPlayers(Player currentPlayer) {
         System.out.println("Spieler:");
         for (int i = 0; i < playerArray.length; i++) {
@@ -205,6 +213,27 @@ public class Game {
             roundOver = true;
         }
         return roundOver;
+    }
+
+    private void showDiscardedCards(){
+        System.out.println("Auf dem Ablagedeck liegen:");
+        for (int i = 0; i < discardedCards.length; i++){
+            System.out.println(discardedCards[i].getName());
+        }
+    }
+
+    private static void showReferenceCard(){
+        String ReferenceCardString =
+                "Wächterin      - 1\n"
+                + "Priester     - 2\n"
+                + "Baron        - 3\n"
+                + "Zofe         - 4\n"
+                + "Prinz        - 5\n"
+                + "König        - 6\n"
+                + "Gräfin       - 7\n"
+                + "Prinzessin   - 8";
+
+        System.out.println(ReferenceCardString);
     }
 
 }
