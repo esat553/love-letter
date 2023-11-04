@@ -40,5 +40,13 @@ public class Player {
     public int getScore() {
         return score;
     }
+
+    public String getCardString(int index){
+        return hand.get(index).getName();
+    }
+
+    public void removeCardFromHand(int index) {
+        hand.remove(index);
+    }
 }
 

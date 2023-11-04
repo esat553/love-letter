@@ -9,6 +9,7 @@ public class Game {
     private static CardDeck cardDeck;
     static Player[] playerArray; //The players are saved in an array.
 
+
     //The game initializer which needs an Array with the player Names to initialize the Game
     public Game(String[] playerNames) {
         this.playerCount = playerNames.length;
@@ -39,7 +40,7 @@ public class Game {
         //Game with more than 2 players only one is removed
         boolean roundRunning = true;
         int currentPlayerNumber = 0;
-        int playersTurnNumber = 0;
+        int nextPlayersTurnNumber = 0;
         if (playerCount <= 2){
             Card[] discardedCards = new Card[4];
             for (int i = 0; i < 4; i++){
@@ -57,32 +58,34 @@ public class Game {
         System.out.println("Befehle können nun eingegeben werden");
         //This is the algorithm which determines when a Round is over.
         while (roundRunning) {
-            Player currentPlayer = this.playerArray[currentPlayerNumber];
-            while (currentPlayerNumber == playersTurnNumber){
-                System.out.println("Am Zug ist: "+ currentPlayer.getName());
+            currentPlayerNumber = nextPlayersTurnNumber; // Diese Zeile kann entfernt werden
+            while (currentPlayerNumber == nextPlayersTurnNumber) {
+                Player currentPlayer = this.playerArray[currentPlayerNumber]; // Hier verschoben
+                System.out.println("Am Zug ist: " + currentPlayer.getName());
                 currentPlayer.addCardToHand(cardDeck.drawCardFromDeck());
-                scanForOptions(currentPlayer, playersTurnNumber);
-                if (cardDeck.isEmpty()) roundRunning  =false;
+                nextPlayersTurnNumber = scanForOptions(currentPlayer, nextPlayersTurnNumber);
+                if (cardDeck.isEmpty()) roundRunning = false;
             }
         }
-
-
     }
 
-    private static void scanForOptions(Player currentPlayer, int playersTurnNumber){
+    private static int scanForOptions(Player currentPlayer, int playersTurnNumber){
         String helpMessage ="Zur Auswahl stehen folgende Befehle:\n" +
                 "\\start                -   Ein neues Spiel starten\n" +
                 "\\playCard             -   Eine Karte spielen. Der Spielzug des aktuellen Spielers wird dadurch beendet\n" +
                 "\\showHand             -   Die Hand des aktuellen Spielers anzeigen\n" +
                 "\\showScore            -   Den Spielstand aller Spieler anzeigen\n" +
                 "\\showPlayers          -   Zeigt alle Spieler an mit und zeigt welche\n" +
-                "\\showDiscardedCards   -   Zeigt die Karten auf dem Ablagestapel\n";
+                "\\showDiscardedCards   -   Zeigt die Karten auf dem Ablagestapel\n" +
+                "\\showReferencecard    -   Zeigt die Referenzkarte mit den Kartentypen\n";
+
         String nichtIngameMessage = "Dieser Befehl ist gerade nicht verfügbar du bist nicht in einem Spiel!";
 
         Scanner scanOptions = new Scanner(System.in);
         String input = scanOptions.nextLine();
             if (input.equals("\\help")) {
                 System.out.println(helpMessage);
+                return playersTurnNumber;
             }else if (input.equals("\\start")) {
                 System.out.println("Wollen sie ein neues Spiel starten? (ja/nein)");
                 String answer = scanOptions.nextLine();
@@ -91,17 +94,23 @@ public class Game {
                 } else {
                     System.out.println("Dann fahren wir mit dem aktuellen Spiel fort");
                 }
+                return playersTurnNumber;
             } else if (input.equals("\\playCard")){
                 playCard(currentPlayer);
                 playersTurnNumber = (playersTurnNumber +1) % playerCount;
+                return playersTurnNumber;
             } else if (input.equals("\\showHand")) {
                 showHand(currentPlayer);
+                return playersTurnNumber;
             } else if (input.equals("\\showScore")){
                 showScore();
+                return playersTurnNumber;
             } else if(input.equals("\\showPlayers")) {
                 showPlayers(currentPlayer);
+                return playersTurnNumber;
             } else {
                 System.out.println("bitte gueltigen Befehl eingeben und nicht das '\\' vergessen!");
+                return playersTurnNumber;
         }
 
     }
@@ -111,7 +120,42 @@ public class Game {
     }
 
     private static void playCard(Player currentPlayer) {
-        System.out.println("Welche Karte möchten sie nun aus Ihrem Deck Spielen");
+        System.out.println("Welche Karte möchten sie nun aus Ihrem Deck Spielen (1 / 2)?");
+        System.out.println("Nummer 1: " + currentPlayer.getCardString(0));
+        System.out.println("Nummer 2: " + currentPlayer.getCardString(1) + "\n");
+        Scanner scanner = new Scanner(System.in);
+        //Nachfolgend wird danach geprüft ob der Spieler eine Zahl eingegeben hat.
+        int choice;
+        do {
+            String userInput = scanner.nextLine();
+            //erst muss geprüft werden, ob die eingabe ein int ist
+            boolean isNumber = checkIfNumber(userInput);
+            if (isNumber) {
+                choice = Integer.parseInt(userInput);
+                if (choice == 1 || choice == 2) {
+                    break;
+                } else {
+                    System.out.println("Bitte geben Sie 1 oder 2 ein.");
+                }
+            } else {
+                System.out.println("Bitte geben Sie eine gültige Zahl ein. Befehle können erst später eigegeben werden");
+            }
+        } while (true); //Das ist eine Pseudo dauerschleife die beendet wird sobald eine gültige eingabe erfolgt.
+        currentPlayer.removeCardFromHand(choice - 1);
+        System.out.println("no effect yet");
+    }
+
+    //hilfsFunktion für playcard zum Spielen einer Karte mit effekt
+
+
+    //hilfsFunkton für playcard
+    private static boolean checkIfNumber(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
 
@@ -137,6 +181,7 @@ public class Game {
         }
     }
 
+    //helpfunction for detecting Round ending
     private int getMaxPlayerCount() {
         int currentMax = 0;
         for (int i = 0; i < playerCount; i++){
@@ -149,6 +194,7 @@ public class Game {
         return currentMax;
     }
 
+    //helpFuncttion for detecting Round Ending
     private boolean isRoundOver(int maxScore) {
         boolean roundOver = false;
         if (
