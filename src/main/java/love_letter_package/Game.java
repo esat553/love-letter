@@ -1,9 +1,3 @@
-package love_letter_package;
-import love_letter_package.Cards.*;
-
-import java.util.ArrayList;
-import java.util.Scanner;
-
 /**
  * @author Esat Avci
  * Das ist die Klasse Game und hier ist die implementierung eines Spiels.
@@ -12,6 +6,13 @@ import java.util.Scanner;
  * Wichtig sind hierbei vor allem die Methoden, welche die Runden- und den Spielverlauf
  * definieren.
  */
+
+package love_letter_package;
+import love_letter_package.Cards.*;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Game {
     static int playerCount;
     private static CardDeck cardDeck;
@@ -33,7 +34,7 @@ public class Game {
     }
 
     /**
-     * @author Esat Avci
+     *
      * Die StartGame Methode startet wie sie selbst erklärt das Spiel und
      * überprüft nach jeder abgeschlossenen Runde, ob ein Spiel zu ende ist
      * findet dann die Gewinner (Es sind potentiel mehere Gewinner Möglich)
@@ -53,6 +54,10 @@ public class Game {
         printWinners(maxPlayerScore);
     }
 
+    /**
+     * Printed die Gewinner eines Spieles aus
+     * @param maxPlayerScore
+     */
     //helping function for startGame()
     private void printWinners(int maxPlayerScore) {
         // creates a List with the Players with the highest Score
@@ -79,8 +84,14 @@ public class Game {
     }
 
 
-
-
+    /**
+     * Die StartRound Methode startet eine Runde aber wird ausgeführt bis die Runde beendet ist.
+     * Das macht sie zu einer der wichtigsten Methoden ingame
+     * zuerst eird eine neue Runde initialisiert. Das wird gemacht indem round Running auf true gesetzt wird,
+     * alle vorher ausgeschiedenen Spieler wieder mitspielen dürfen,
+     * die Hand der Spieler wieder neu verteilt wird und Karten auf den Ablagestapel gelegt werden.
+     *
+     */
     public void startRound() {
         //Here the rule is being applied, that for 2 players 4 Cards are removed from the Deck and for a
         //Game with more than 2 players only one is removed
@@ -133,7 +144,13 @@ public class Game {
         System.out.print("\n\n");
     }
 
-
+    /**
+     * Die Methode ist für die jeweiligen Eingaben zuständig und um die information zu teilen, ob ein
+     * neuer Spieler dran ist wird ein int zurückgegeben. Ein neuer Spieler ist nur bei playCard dran.
+     * @param currentPlayer
+     * @param playersTurnNumber
+     * @return
+     */
     private int scanForOptions(Player currentPlayer, int playersTurnNumber){
         String helpMessage ="Zur Auswahl stehen folgende Befehle:\n" +
                 "\\start                -   Ein neues Spiel starten\n" +
@@ -187,6 +204,13 @@ public class Game {
         System.out.println("Sie befinden sich schon in einem Spiel.");
     }
 
+    /**
+     * PlayCard ist eine der wichtigsten Funktionen in der Game Methode, denn hier wird der Effekt jeder Karte
+     * ausgeführt. Die Effekte vom Prinzen und von der Gräfin müssen hier implementiert werden, da man bei
+     * der Gräfin gar nicht die Wahl bekommen darf eine andere Karte zu spielen und da beim spielen vom Prinzen
+     * auf das Kartendeck zugegriffen werden muss.
+     * @param currentPlayer
+     */
     private static void playCard(Player currentPlayer) {
         Scanner scanner = new Scanner(System.in);
         //wenn ein Spieler Countess und Prinz oder König hat wird ersteres Ausgeführt

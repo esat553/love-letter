@@ -1,3 +1,8 @@
+/**
+ * Die Spieler also Player sind eine Hauptbestandteil des Spieles. Ihr wichtigster Parameter ist hand.
+ * Die anderen sind für das Gameplay notwendig.
+ */
+
 package love_letter_package;
 
 import love_letter_package.Cards.*;

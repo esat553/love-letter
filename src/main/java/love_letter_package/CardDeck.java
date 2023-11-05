@@ -1,3 +1,9 @@
+/**
+ * Das Kartendeck ist eine recht Simple Klasse und war ursprünglich in der Game Klasse enthalten,
+ * jedoch ist mit der Steigenden Anzahl an Methoden die übersichtlichkeit des Codes schlechter gewoorden
+ * deshalb wurde sie als eigene Klasse implementiert. Sie besteht hauptsächlich aus einer ArrayList, die
+ * das Kartendeck darstellt.
+ */
 package love_letter_package;
 
 import love_letter_package.Cards.*;
@@ -13,6 +19,11 @@ public class CardDeck {
     }
 
     //For readability Arrays is being used as a data structure for shuffling of the deck
+
+    /**
+     * Mithilfe dieser Methode wird das Kartendeck mit genau den Karten wie unten angeführt erstellt.
+     * @return
+     */
     private ArrayList<Card> newCardDeck() {
         // Erstellt ein Array von Card-Objekten
         Card[] cardsArray = {
