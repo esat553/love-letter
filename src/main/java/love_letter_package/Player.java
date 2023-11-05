@@ -57,5 +57,9 @@ public class Player {
         score++;
     }
 
+    public void clearHand(){
+        this.hand.clear();
+    }
+
 }
 

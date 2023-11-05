@@ -26,21 +26,43 @@ public class Game {
 
     public void startGame(){
         boolean endOfGame = false;
+        int maxPlayerScore = 0;
         while (!endOfGame){
             startRound();
-            int maxPlayerScore = getMaxPlayerCount();
+            maxPlayerScore = getMaxPlayerCount();
             endOfGame = isRoundOver(maxPlayerScore);
         }
         System.out.print("\n\n\n");
         System.out.println("Das Spiel ist zu Ende!");
         System.out.print("\n\n");
-        printWinners();
+        printWinners(maxPlayerScore);
     }
 
     //helping function for startGame()
-    private void printWinners(){
-        System.out.println("Platzhalter");
+    private void printWinners(int maxPlayerScore) {
+        // creates a List with the Players with the highest Score
+        ArrayList<Player> winners = new ArrayList<>();
+        for (int i = 0; i < playerArray.length; i++) {
+            if (playerArray[i].getScore() == maxPlayerScore) {
+                winners.add(playerArray[i]);
+            }
+        }
+
+        // Ausgeben der Gewinner
+        if (winners.size() == 1) {
+            System.out.println("Der Gewinner des Spiels ist: " + winners.get(0).getName() + " mit " + maxPlayerScore + " Punkten!");
+        } else {
+            System.out.print("Die Gewinner des Spiels sind: ");
+            for (int i = 0; i < winners.size(); i++) {
+                System.out.print(winners.get(i).getName());
+                if (i != winners.size() - 1) {
+                    System.out.print(", ");
+                }
+            }
+            System.out.println(" mit " + maxPlayerScore + " Punkten!");
+        }
     }
+
 
 
 
@@ -60,6 +82,7 @@ public class Game {
             discardedCards = new Card[1];
             discardedCards[0] = cardDeck.drawCardFromDeck();
         }
+        clearPlayerCardHands();
         System.out.println("Jeder Spieler erhält nun eine Karte!");
         for (int i = 0; i < playerArray.length; i ++){
             Card cardFromCarddeck = cardDeck.drawCardFromDeck(); //Hier wird eine Karte aus dem Kartendeck genommen
@@ -269,6 +292,12 @@ public class Game {
         for (int i = 0; i < winnersList.size(); i++){
             Player currentPlayer = winnersList.get(i);
             currentPlayer.increaseScore();
+        }
+    }
+
+    private void clearPlayerCardHands(){
+        for (Player player : playerArray) {
+            player.clearHand();
         }
     }
 
