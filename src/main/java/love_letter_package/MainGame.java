@@ -2,13 +2,13 @@ package love_letter_package;
 
 import java.util.Scanner;
 
+/**
+ * @author: Esat Avci
+ * Das ist die Main Klasse, die das Spiel ausführt. Hier wird eine klasse Game durch
+ * eine Abfrage von Spielermenge und Spielernamen initialisiert.
+ *
+ */
 public class MainGame {
-    /**
-     * author: Esat Avci
-     * This is the Main function, which executes the Game.
-     * @param args
-     */
-
     private final static String helpMessage ="Zur Auswahl stehen folgende Befehle:\n" +
             "\\start      -   Ein neues Spiel starten\n" +
             "\\playCard   -   Eine Karte Spielen\n" +

@@ -4,6 +4,14 @@ import love_letter_package.Cards.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * @author Esat Avci
+ * Das ist die Klasse Game und hier ist die implementierung eines Spiels.
+ * Der Hauptteil des Spiels findet im PlayerArray statt, denn das PlayerArray
+ * hat alle Spieler enthalten. Die Spieler wiederum machen das Spiel.
+ * Wichtig sind hierbei vor allem die Methoden, welche die Runden- und den Spielverlauf
+ * definieren.
+ */
 public class Game {
     static int playerCount;
     private static CardDeck cardDeck;
@@ -24,6 +32,13 @@ public class Game {
         return playerCount;
     }
 
+    /**
+     * @author Esat Avci
+     * Die StartGame Methode startet wie sie selbst erklärt das Spiel und
+     * überprüft nach jeder abgeschlossenen Runde, ob ein Spiel zu ende ist
+     * findet dann die Gewinner (Es sind potentiel mehere Gewinner Möglich)
+     *
+     */
     public void startGame(){
         boolean endOfGame = false;
         int maxPlayerScore = 0;
