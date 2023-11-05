@@ -25,6 +25,7 @@ public abstract class Card {
         return effect;
     }
 
+
     public String getDataAsString() {
         return (name + " has a Closenesslevel to the princess of " + closenessToPrincess + " and has the\n" +
                 "Effect:" + effect);

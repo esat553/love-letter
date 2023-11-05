@@ -22,8 +22,16 @@ public class Player {
         return hand;
     }
 
-    public void addCardToHand (Card card){
-        this.hand.add(card);
+    public Card getCard(int index){
+        return hand.get(index);
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public String getCardString(int index){
+        return hand.get(index).getName();
     }
 
     public String getHandAsString() {
@@ -37,16 +45,17 @@ public class Player {
         }
         return returnString;
     }
-    public int getScore() {
-        return score;
-    }
-
-    public String getCardString(int index){
-        return hand.get(index).getName();
+    public void addCardToHand (Card card){
+        this.hand.add(card);
     }
 
     public void removeCardFromHand(int index) {
         hand.remove(index);
     }
+
+    public void increaseScore(){
+        score++;
+    }
+
 }
 

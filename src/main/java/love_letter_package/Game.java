@@ -1,9 +1,7 @@
 package love_letter_package;
 import love_letter_package.Cards.*;
 
-import java.lang.ref.Reference;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
@@ -33,6 +31,15 @@ public class Game {
             int maxPlayerScore = getMaxPlayerCount();
             endOfGame = isRoundOver(maxPlayerScore);
         }
+        System.out.print("\n\n\n");
+        System.out.println("Das Spiel ist zu Ende!");
+        System.out.print("\n\n");
+        printWinners();
+    }
+
+    //helping function for startGame()
+    private void printWinners(){
+        System.out.println("Platzhalter");
     }
 
 
@@ -70,7 +77,14 @@ public class Game {
                 if (cardDeck.isEmpty()) roundRunning = false;
             }
         }
+        ArrayList<Player> winnerList =  determineWinner(playerArray);
+        giveWinnersPoints(winnerList);
         System.out.println("Runde beendet");
+        System.out.print("Die gewinner dieser Runde: ");
+        for (int i = 0; i < winnerList.size(); i++){
+            System.out.print(winnerList.get(i).getName() + " " );
+        }
+        System.out.print("\n\n");
     }
 
     private int scanForOptions(Player currentPlayer, int playersTurnNumber){
@@ -232,6 +246,30 @@ public class Game {
                 + "Prinzessin   - 8";
 
         System.out.println(ReferenceCardString);
+    }
+
+    private ArrayList<Player> determineWinner(Player[] playerArray){
+        //initialize the array with the Players with the highest Card with the first Player
+        ArrayList<Player> currentlyHighestCardOwners = new ArrayList<>();
+        currentlyHighestCardOwners.add(playerArray[0]);
+        for (int i = 1; i < playerArray.length; i++){
+            int closenessToPrincessPrevious = currentlyHighestCardOwners.get(0).getCard(0).getClosenessToPrincess();
+            int closenessToPrincessCurrent = playerArray[i].getCard(0).getClosenessToPrincess();
+            if (closenessToPrincessCurrent > closenessToPrincessPrevious){
+                currentlyHighestCardOwners.clear();
+                currentlyHighestCardOwners.add(playerArray[i]);
+            } else if (closenessToPrincessPrevious == closenessToPrincessCurrent) {
+                currentlyHighestCardOwners.add(playerArray[i]);
+            }
+        }
+        return currentlyHighestCardOwners;
+    }
+
+    private void giveWinnersPoints(ArrayList<Player> winnersList){
+        for (int i = 0; i < winnersList.size(); i++){
+            Player currentPlayer = winnersList.get(i);
+            currentPlayer.increaseScore();
+        }
     }
 
 }
