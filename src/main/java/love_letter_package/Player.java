@@ -8,10 +8,17 @@ public class Player {
     private String name;
     private ArrayList<Card> hand;
     private int score;
+
+    private boolean protection;
+
+    private boolean outOfRound;
+
     public Player(String name){
         this.name = name;
         this.hand = new ArrayList<Card>();
         this.score = 0;
+        this.protection = false;
+        this.outOfRound = false;
     }
 
     public String getName() {
@@ -45,6 +52,24 @@ public class Player {
         }
         return returnString;
     }
+
+    public boolean isOutOfRound() {
+        return outOfRound;
+    }
+
+    public boolean hasProtection() {
+        return protection;
+    }
+
+    // Zusätzlich Setter-Methoden:
+    public void setOutOfRound(boolean outOfRound) {
+        this.outOfRound = outOfRound;
+    }
+
+    public void setProtection(boolean protection) {
+        this.protection = protection;
+    }
+
     public void addCardToHand (Card card){
         this.hand.add(card);
     }

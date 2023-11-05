@@ -91,13 +91,18 @@ public class Game {
         System.out.println("Befehle können nun eingegeben werden");
         //This is the algorithm which determines when a Round is over.
         while (roundRunning) {
-            currentPlayerNumber = nextPlayersTurnNumber; // Diese Zeile kann entfernt werden
+            currentPlayerNumber = nextPlayersTurnNumber;
             while (currentPlayerNumber == nextPlayersTurnNumber) {
-                Player currentPlayer = this.playerArray[currentPlayerNumber]; // Hier verschoben
+                Player currentPlayer = this.playerArray[currentPlayerNumber];
+                //Only if Player is not Out he can play
+                if (currentPlayer.isOutOfRound()) {
+                    currentPlayerNumber = (currentPlayerNumber + 1) % playerArray.length;
+                    continue;
+                }
                 System.out.println("Am Zug ist: " + currentPlayer.getName());
                 currentPlayer.addCardToHand(cardDeck.drawCardFromDeck());
                 nextPlayersTurnNumber = scanForOptions(currentPlayer, nextPlayersTurnNumber);
-                if (cardDeck.isEmpty()) roundRunning = false;
+                if (cardDeck.isEmpty() || checkIfOnlyOnePlayer()) roundRunning = false;
             }
         }
         ArrayList<Player> winnerList =  determineWinner(playerArray);
@@ -185,6 +190,7 @@ public class Game {
                 System.out.println("Bitte geben Sie eine gültige Zahl ein. Befehle können erst später eigegeben werden");
             }
         } while (true); //Das ist eine Pseudo dauerschleife die beendet wird sobald eine gültige eingabe erfolgt.
+        //playerArray = currentPlayer.getCard(choice -1).effectAction(currentPlayer, playerArray);
         currentPlayer.removeCardFromHand(choice - 1);
         System.out.println("no effect yet");
     }
@@ -272,21 +278,39 @@ public class Game {
     }
 
     private ArrayList<Player> determineWinner(Player[] playerArray){
-        //initialize the array with the Players with the highest Card with the first Player
         ArrayList<Player> currentlyHighestCardOwners = new ArrayList<>();
-        currentlyHighestCardOwners.add(playerArray[0]);
-        for (int i = 1; i < playerArray.length; i++){
+
+        //We determine the first player which is out of the Round
+        int startIndex = -1;
+        for (int i = 0; i < playerArray.length; i++) {
+            if (!playerArray[i].isOutOfRound()) {
+                startIndex = i;
+                break;
+            }
+        }
+        //the first player which is not outOfRound is initialized as the currentWinner
+        currentlyHighestCardOwners.add(playerArray[startIndex]);
+
+        for (int i = startIndex + 1; i < playerArray.length; i++) {
+            //don't add players which are out of Round
+            if (playerArray[i].isOutOfRound()) {
+                continue;
+            }
+
             int closenessToPrincessPrevious = currentlyHighestCardOwners.get(0).getCard(0).getClosenessToPrincess();
             int closenessToPrincessCurrent = playerArray[i].getCard(0).getClosenessToPrincess();
-            if (closenessToPrincessCurrent > closenessToPrincessPrevious){
+
+            if (closenessToPrincessCurrent > closenessToPrincessPrevious) {
                 currentlyHighestCardOwners.clear();
                 currentlyHighestCardOwners.add(playerArray[i]);
             } else if (closenessToPrincessPrevious == closenessToPrincessCurrent) {
                 currentlyHighestCardOwners.add(playerArray[i]);
             }
         }
+
         return currentlyHighestCardOwners;
     }
+
 
     private void giveWinnersPoints(ArrayList<Player> winnersList){
         for (int i = 0; i < winnersList.size(); i++){
@@ -300,5 +324,16 @@ public class Game {
             player.clearHand();
         }
     }
+
+    private boolean checkIfOnlyOnePlayer() {
+        int activePlayers = 0;
+        for (Player player : playerArray) {
+            if (!player.isOutOfRound()) {
+                activePlayers++;
+            }
+        }
+        return activePlayers == 1;
+    }
+
 
 }
