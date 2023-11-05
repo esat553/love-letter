@@ -26,6 +26,12 @@ public class Baron extends Card{
             }
         }
 
+        if (availablePlayers.isEmpty()) {
+            System.out.println("Es gibt keinen Spieler, mit dem du Karten vergleichen kannst.");
+            return playerArray; // Beendet die Aktion frühzeitig
+        }
+
+
         int chosenIndex;
         do {
             for (int i = 0; i < availablePlayers.size(); i++) {

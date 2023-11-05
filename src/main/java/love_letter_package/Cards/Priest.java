@@ -23,6 +23,10 @@ public class Priest extends Card{
                 availablePlayers.add(playerArray[i]);
             }
         }
+        if (availablePlayers.isEmpty()) {
+            System.out.println("Es gibt keinen Spieler, den du anschauen kannst.");
+            return playerArray;
+        }
 
         int chosenIndex;
         do {

@@ -71,6 +71,7 @@ public class Game {
         //Game with more than 2 players only one is removed
         this.cardDeck = new CardDeck();
         boolean roundRunning = true;
+        playerArray = setOutOfRoundToDefault(playerArray);
         int currentPlayerNumber = 0;
         int nextPlayersTurnNumber = 0;
         if (playerCount <= 2){
@@ -96,7 +97,7 @@ public class Game {
                 Player currentPlayer = this.playerArray[currentPlayerNumber];
                 //Only if Player is not Out he can play
                 if (currentPlayer.isOutOfRound()) {
-                    currentPlayerNumber = (currentPlayerNumber + 1) % playerArray.length;
+                    nextPlayersTurnNumber = (currentPlayerNumber + 1) % playerArray.length;
                     continue;
                 }
                 System.out.println("Am Zug ist: " + currentPlayer.getName());
@@ -116,6 +117,7 @@ public class Game {
         }
         System.out.print("\n\n");
     }
+
 
     private int scanForOptions(Player currentPlayer, int playersTurnNumber){
         String helpMessage ="Zur Auswahl stehen folgende Befehle:\n" +
@@ -355,6 +357,13 @@ public class Game {
             }
         }
         return -1;
+    }
+
+    private Player[] setOutOfRoundToDefault(Player[] playerArray){
+        for (Player player: playerArray){
+            player.setOutOfRound(false);
+        }
+        return playerArray;
     }
 
 

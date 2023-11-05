@@ -29,6 +29,11 @@ public class Guard extends Card{
             }
         }
 
+        if (availablePlayers.isEmpty()) {
+            System.out.println("Es gibt keinen Spieler, bei dem du Raten kannst.");
+            return playerArray;
+        }
+
         int chosenIndex;
         do {
             for (int i = 0; i < availablePlayers.size(); i++) {
@@ -46,10 +51,11 @@ public class Guard extends Card{
 
         // Errate die Karte des gewählten Spielers
         System.out.println("Welche Karte hat " + chosenPlayer.getName());
-        String guessedCardName = scanner.nextLine().trim();
+        System.out.println("Prinzessin Annette, Gräfin, König, Prinz, Zofe, Baron, Priester und Wächterin?");
+        String guessedCardName = scanner.nextLine();
 
         // Wenn die Vermutung korrekt ist, setze den Spieler aus dem Spiel
-        if (guessedCardName.equalsIgnoreCase(chosenPlayer.getHand().get(0).getName())) {
+        if (guessedCardName.equals(chosenPlayer.getHand().get(0).getName())) {
             chosenPlayer.setOutOfRound(true);
             System.out.println("Richtig geraten! " + chosenPlayer.getName() + " ist nun aus dieser Runde ausgeschieden.");
         } else {
