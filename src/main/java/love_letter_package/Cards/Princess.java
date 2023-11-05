@@ -1,5 +1,7 @@
 package love_letter_package.Cards;
 
+import love_letter_package.Player;
+
 public class Princess extends Card{
 
     public Princess() {
@@ -7,7 +9,10 @@ public class Princess extends Card{
     }
 
     @Override
-    public void effectAction() {
-        System.out.println("Platzhalter");
+    public Player[] effectAction(Player[] playerArray, int indexOfPlayer) {
+        playerArray[indexOfPlayer].setOutOfRound(true);
+        return playerArray;
     }
+
+
 }

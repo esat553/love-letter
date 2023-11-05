@@ -1,5 +1,7 @@
 package love_letter_package.Cards;
 
+import love_letter_package.Player;
+
 public class Countess extends Card{
 
     public Countess() {
@@ -8,8 +10,9 @@ public class Countess extends Card{
                 "Gräfin ausspielen.");
     }
 
-    @Override
-    public void effectAction() {
 
+    @Override
+    public Player[] effectAction(Player[] playerArray, int indexOfPlayer) {
+        return playerArray;
     }
 }

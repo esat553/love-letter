@@ -100,6 +100,8 @@ public class Game {
                     continue;
                 }
                 System.out.println("Am Zug ist: " + currentPlayer.getName());
+                //the protection of the Players has to be set on default again
+                currentPlayer.setProtection(false);
                 currentPlayer.addCardToHand(cardDeck.drawCardFromDeck());
                 nextPlayersTurnNumber = scanForOptions(currentPlayer, nextPlayersTurnNumber);
                 if (cardDeck.isEmpty() || checkIfOnlyOnePlayer()) roundRunning = false;
@@ -169,30 +171,42 @@ public class Game {
     }
 
     private static void playCard(Player currentPlayer) {
-        System.out.println("Welche Karte möchten sie nun aus Ihrem Deck Spielen (1 / 2)?");
-        System.out.println("Nummer 1: " + currentPlayer.getCardString(0));
-        System.out.println("Nummer 2: " + currentPlayer.getCardString(1) + "\n");
         Scanner scanner = new Scanner(System.in);
-        //Nachfolgend wird danach geprüft ob der Spieler eine Zahl eingegeben hat.
-        int choice;
-        do {
-            String userInput = scanner.nextLine();
-            //erst muss geprüft werden, ob die eingabe ein int ist
-            boolean isNumber = checkIfNumber(userInput);
-            if (isNumber) {
-                choice = Integer.parseInt(userInput);
-                if (choice == 1 || choice == 2) {
-                    break;
+        //wenn ein Spieler Countess und Prinz oder König hat wird ersteres Ausgeführt
+        if (currentPlayer.playerHasCountessAndKingOrPrince()){
+            System.out.println("Du hast die Gräfin und einen König oder Prinzen! Nun musst du also die Gräfin spielen!\n" +
+                    "Drücke Enter um das zu tun.");
+            scanner.nextLine();
+            if (currentPlayer.getHand().get(0) instanceof Countess){
+                currentPlayer.removeCardFromHand(0);
+            } else currentPlayer.removeCardFromHand(1);
+        } else {
+            System.out.println("Welche Karte möchten sie nun aus Ihrem Deck Spielen (1 / 2)?");
+            System.out.println("Nummer 1: " + currentPlayer.getCardString(0));
+            System.out.println("Nummer 2: " + currentPlayer.getCardString(1) + "\n");
+            //Nachfolgend wird danach geprüft ob der Spieler eine Zahl eingegeben hat.
+            int choice;
+            do {
+                String userInput = scanner.nextLine();
+                //erst muss geprüft werden, ob die eingabe ein int ist
+                boolean isNumber = checkIfNumber(userInput);
+                if (isNumber) {
+                    choice = Integer.parseInt(userInput);
+                    if (choice == 1 || choice == 2) {
+                        break;
+                    } else {
+                        System.out.println("Bitte geben Sie 1 oder 2 ein.");
+                    }
                 } else {
-                    System.out.println("Bitte geben Sie 1 oder 2 ein.");
+                    System.out.println("Bitte geben Sie eine gültige Zahl ein. Befehle können erst später eigegeben werden");
                 }
-            } else {
-                System.out.println("Bitte geben Sie eine gültige Zahl ein. Befehle können erst später eigegeben werden");
-            }
-        } while (true); //Das ist eine Pseudo dauerschleife die beendet wird sobald eine gültige eingabe erfolgt.
-        //playerArray = currentPlayer.getCard(choice -1).effectAction(currentPlayer, playerArray);
-        currentPlayer.removeCardFromHand(choice - 1);
-        System.out.println("no effect yet");
+            } while (true); //Das ist eine Pseudo dauerschleife die beendet wird sobald eine gültige eingabe erfolgt.
+            //playerArray = currentPlayer.getCard(choice -1).effectAction(currentPlayer, playerArray);
+            Card selectedCard = currentPlayer.getCard(choice - 1);
+            currentPlayer.removeCardFromHand(choice - 1);
+
+            playerArray = selectedCard.effectAction(playerArray, getIndex(currentPlayer, playerArray));
+        }
     }
 
     //hilfsFunktion für playcard zum Spielen einer Karte mit effekt
@@ -334,6 +348,16 @@ public class Game {
         }
         return activePlayers == 1;
     }
+    static int getIndex(Player currentPlayer, Player[] playerArray) {
+        for (int i = 0; i < playerArray.length; i++) {
+            if (playerArray[i] == currentPlayer) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
 
 
 }

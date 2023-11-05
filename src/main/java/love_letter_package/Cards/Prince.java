@@ -1,5 +1,7 @@
 package love_letter_package.Cards;
 
+import love_letter_package.Player;
+
 public class Prince extends Card{
 
 
@@ -8,7 +10,9 @@ public class Prince extends Card{
                 " zeiht eine neue Karte");
     }
 
-    public void effectAction() {
-        System.out.println("Placeholder");
+
+    @Override
+    public Player[] effectAction(Player[] playerArray, int indexOfPlayer) {
+        return playerArray;
     }
 }

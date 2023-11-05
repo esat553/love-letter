@@ -1,5 +1,7 @@
 package love_letter_package.Cards;
 
+import love_letter_package.Player;
+
 public abstract class Card {
     private String name;
     private int closenessToPrincess;
@@ -31,6 +33,6 @@ public abstract class Card {
                 "Effect:" + effect);
     }
 
-    public abstract void effectAction();
+    public abstract Player[] effectAction(Player[] playerArray, int indexOfPlayer);
 
 }

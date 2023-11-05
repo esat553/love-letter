@@ -86,5 +86,24 @@ public class Player {
         this.hand.clear();
     }
 
+    public boolean playerHasCountessAndKingOrPrince() {
+        boolean hasCountess = false;
+        boolean hasKingOrPrince = false;
+
+        for (Card card : hand) {
+            if (card instanceof Countess) {
+                hasCountess = true;
+            }
+            if (card instanceof King || card instanceof Prince) {
+                hasKingOrPrince = true;
+            }
+        }
+
+        return hasCountess && hasKingOrPrince;
+    }
+
+    public void setHand(ArrayList<Card> hand) {
+        this.hand = hand;
+    }
 }
 
