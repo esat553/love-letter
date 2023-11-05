@@ -43,7 +43,8 @@ public class Guard extends Card{
                 String userInput = scanner.nextLine();
                 chosenIndex = Integer.parseInt(userInput) - 1;
             } catch (NumberFormatException e) {
-                chosenIndex = -1;  // ungültige Eingabe
+                chosenIndex = -1;
+                System.out.println("Bitte eine gültige Zahl eingeben! Befehle sind erst später wieder möglich");
             }
         } while (chosenIndex < 0 || chosenIndex >= availablePlayers.size());
 

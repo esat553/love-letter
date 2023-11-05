@@ -206,7 +206,9 @@ public class Game {
             //playerArray = currentPlayer.getCard(choice -1).effectAction(currentPlayer, playerArray);
             Card selectedCard = currentPlayer.getCard(choice - 1);
             currentPlayer.removeCardFromHand(choice - 1);
-
+            if (selectedCard instanceof Prince){
+                princeSelected(getIndex(currentPlayer, playerArray));
+            }
             playerArray = selectedCard.effectAction(playerArray, getIndex(currentPlayer, playerArray));
         }
     }
@@ -366,7 +368,39 @@ public class Game {
         return playerArray;
     }
 
+    private static void princeSelected(int indexOfPlayer){
+        System.out.println("Prinz wurde ausgewählt. Wer aus dem Game soll seine hand ablegen und eine neue Karte ziehen?");
+        ArrayList<Player> availablePlayers = new ArrayList<>();
+        for (int i = 0; i < playerArray.length; i++) {
+            if (!playerArray[i].isOutOfRound() && i != indexOfPlayer && !playerArray[i].hasProtection()) {
+                availablePlayers.add(playerArray[i]);
+            }
+        }
+        int chosenIndex;
+        if (availablePlayers.isEmpty()) {
+            chosenIndex = indexOfPlayer;
+            System.out.println("Es gibt keinen Spieler, der ausgewählt werden kann, also" +
+                    "musst du deine Karten ablegen");
+        } else {
 
+            do {
+                for (int i = 0; i < availablePlayers.size(); i++) {
+                    System.out.println((i + 1) + ". " + availablePlayers.get(i).getName());
+                }
+                try {
+                    Scanner scanner = new Scanner(System.in);
+                    String userInput = scanner.nextLine();
+                    chosenIndex = Integer.parseInt(userInput) - 1;
+                } catch (NumberFormatException e) {
+                    chosenIndex = -1;
+                    System.out.println("Bitte eine gültige Zahl eingeben! Befehle sind erst später wieder möglich");
+                }
+            } while (chosenIndex < 0 || chosenIndex >= availablePlayers.size());
+        }
+        Player chosenPlayer = availablePlayers.get(chosenIndex);
+        chosenPlayer.clearHand();
+        chosenPlayer.addCardToHand(cardDeck.drawCardFromDeck());
+    }
 
 
 }

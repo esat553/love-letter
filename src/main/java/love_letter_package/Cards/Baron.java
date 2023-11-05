@@ -40,6 +40,7 @@ public class Baron extends Card{
             try {
                 String userInput = scanner.nextLine();
                 chosenIndex = Integer.parseInt(userInput) - 1;
+                System.out.println("Bitte eine gültige Zahl eingeben! Befehle sind erst später wieder möglich");
             } catch (NumberFormatException e) {
                 chosenIndex = -1;  // ungültige Eingabe
             }
