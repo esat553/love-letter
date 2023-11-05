@@ -16,7 +16,6 @@ public class Game {
     //The game initializer which needs an Array with the player Names to initialize the Game
     public Game(String[] playerNames) {
         this.playerCount = playerNames.length;
-        this.cardDeck = new CardDeck();
         this.playerArray = new Player[this.playerCount];
         for (int i = 0; i < this.playerCount; i++) {
             this.playerArray[i] = new Player(playerNames[i]);
@@ -41,6 +40,7 @@ public class Game {
     public void startRound() {
         //Here the rule is being applied, that for 2 players 4 Cards are removed from the Deck and for a
         //Game with more than 2 players only one is removed
+        this.cardDeck = new CardDeck();
         boolean roundRunning = true;
         int currentPlayerNumber = 0;
         int nextPlayersTurnNumber = 0;
@@ -70,6 +70,7 @@ public class Game {
                 if (cardDeck.isEmpty()) roundRunning = false;
             }
         }
+        System.out.println("Runde beendet");
     }
 
     private int scanForOptions(Player currentPlayer, int playersTurnNumber){
@@ -90,13 +91,7 @@ public class Game {
                 System.out.println(helpMessage);
                 return playersTurnNumber;
             }else if (input.equals("\\start")) {
-                System.out.println("Wollen sie ein neues Spiel starten? (ja/nein)");
-                String answer = scanOptions.nextLine();
-                if (answer.equals("ja")) {
-                    newGame();
-                } else {
-                    System.out.println("Dann fahren wir mit dem aktuellen Spiel fort");
-                }
+                newGame();
                 return playersTurnNumber;
             } else if (input.equals("\\playCard")){
                 playCard(currentPlayer);
@@ -117,6 +112,9 @@ public class Game {
             } else if (input.equals("\\showReferenceCard")) {
                 showReferenceCard();
                 return playersTurnNumber;
+            } else if (input.equals("\\debug")) {
+                cardDeck.showCardDeck();
+                return playersTurnNumber;
             } else {
                 System.out.println("bitte gueltigen Befehl eingeben und nicht das '\\' vergessen!");
                 return playersTurnNumber;
@@ -125,7 +123,7 @@ public class Game {
     }
 
     private static void newGame(){
-        System.out.println("Das hier ist eine Platzhalterfunktion. Spiel geht weiter.");
+        System.out.println("Sie befinden sich schon in einem Spiel.");
     }
 
     private static void playCard(Player currentPlayer) {

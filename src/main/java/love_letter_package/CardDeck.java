@@ -3,6 +3,7 @@ package love_letter_package;
 import love_letter_package.Cards.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Arrays;
 
 public class CardDeck {
     private ArrayList<Card> cardDeck;
@@ -11,22 +12,31 @@ public class CardDeck {
         this.cardDeck = newCardDeck();
     }
 
+    //For readability Arrays is being used as a data structure for shuffling of the deck
     private ArrayList<Card> newCardDeck() {
-        Card[] unshuffledList = {
+        // Erstellt ein Array von Card-Objekten
+        Card[] cardsArray = {
                 new Princess(), new Countess(), new King(), new Prince(),
                 new Prince(), new Handmaid(), new Handmaid(), new Baron(),
                 new Baron(), new Priest(), new Priest(), new Guard(),
                 new Guard(), new Guard(), new Guard(), new Guard()
         };
+
+        // Wandelt das Array in eine ArrayList um
+        ArrayList<Card> unshuffledList = new ArrayList<Card>(Arrays.asList(cardsArray));
+
         ArrayList<Card> newCardDeck = new ArrayList<Card>();
         Random randomNumber = new Random();
-        for (int i = 15; i >= 0; i--) {
-            int zufallsZahl = randomNumber.nextInt(i + 1);
-            newCardDeck.add(unshuffledList[zufallsZahl]);
+
+        while (!unshuffledList.isEmpty()) {
+            int zufallsZahl = randomNumber.nextInt(unshuffledList.size());
+            newCardDeck.add(unshuffledList.remove(zufallsZahl));
         }
 
         return newCardDeck;
     }
+
+
 
 
     public boolean isEmpty() {
@@ -44,6 +54,13 @@ public class CardDeck {
         Card drewedCard = cardDeck.get(0);
         cardDeck.remove(0);
         return drewedCard;
+    }
+
+    //Debugging function
+    public void showCardDeck() {
+        for (int i = 0; i < cardDeck.size(); i++) {
+            System.out.println(cardDeck.get(i).getName());
+        }
     }
 
 }
